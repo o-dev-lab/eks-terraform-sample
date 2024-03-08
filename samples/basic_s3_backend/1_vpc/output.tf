@@ -29,14 +29,17 @@ output "public_subnet_ids" {
   value = module.vpc.public_subnets
 }
 
-output "eni_security_group_id" {
-  value = module.endpoint_sg.security_group_id
-}
+# output "eni_security_group_id" {
+#   value = module.endpoint_sg.security_group_id
+# }
 
 output "eks_cluster_security_group_id" {
   value = module.eks_cluster_sg.security_group_id
 }
 
+output "bastion_security_group_id" {
+  value = module.bastion_sg.security_group_id
+}
 
 
 

@@ -235,12 +235,11 @@ module "bastion_sg" {
 # 작업 노드
 
 module "bastion" {
-  source = "../../modules/ec2"
+  source = "../../modules/eks_bastion"
   
-  instance_type = "t3.small"
+  instance_type = var.instance_type
   subnet_id = module.vpc.public_subnets[0]
-  key_name = "dbg-dev-bastion"
-  user_data = file("./user_data.sh")
+  key_name = var.key_name
   vpc_security_group_ids = [module.bastion_sg.security_group_id]
   iam_role_name = var.bastion_iam_role_name
   create_iam_instance_profile = true

@@ -67,3 +67,9 @@ variable "cluster_security_group_id" {
   type        = string
   default     = ""
 }
+
+variable "bastion_iam_role_name" {
+  description = ""
+  type = string
+  default = ""
+}

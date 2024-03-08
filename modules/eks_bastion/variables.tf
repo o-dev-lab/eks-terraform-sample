@@ -60,7 +60,3 @@ variable "volume_size" {
   type = number
 }
 
-variable "user_data" {
-  type = string
-  default = null
-}

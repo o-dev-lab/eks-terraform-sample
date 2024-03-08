@@ -35,14 +35,17 @@ module "ecr" {
 
 
 
-
+data "aws_iam_instance_profile" "bastion_role_arn" {
+  name = var.bastion_iam_role_name
+}
 
 data "aws_partition" "current" {}
 
 # EKS Cluster (fargate)
 
 module "eks_cluster" {
-  source   = "../../../modules/eks"
+  source  = "terraform-aws-modules/eks/aws"
+  version = "20.5.1"
 
   vpc_id = data.terraform_remote_state.vpc.outputs.vpc_id
   subnet_ids = data.terraform_remote_state.vpc.outputs.private_subnet_ids
@@ -83,17 +86,32 @@ module "eks_cluster" {
     }
   }
 
-  manage_aws_auth_configmap = true
+  enable_cluster_creator_admin_permissions = true
+  
+  # 권한 추가 
 
-  aws_auth_users = [
-    for user in var.aws_auth_users : {
-      userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${user}",
-      username = user,
-      groups   = ["system:masters"],
+
+  access_entries = {
+    # One access entry with a policy associated
+    example = {
+      kubernetes_groups = []
+      principal_arn     = data.aws_iam_instance_profile.bastion_role_arn.arn
+
+      policy_associations = {
+        example = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }
     }
-  ]
+  }
 
 
 
 }
+
+
+
 
