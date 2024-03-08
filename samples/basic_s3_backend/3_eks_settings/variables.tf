@@ -40,3 +40,9 @@ variable "fargate_profiles" {
   type        = any
   default     = {}
 }
+
+variable "tfstate_bucket_name" {
+  description = "s3 bucket name of tfstate backend"
+  type = string
+  default = ""
+}

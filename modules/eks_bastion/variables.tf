@@ -41,6 +41,13 @@ variable "create_iam_instance_profile" {
   type = bool
 }
 
+variable "use_iam_instance_profile" {
+  description = ""
+  default = false
+  type = bool
+}
+
+
 variable "iam_role_policies" {
   description = ""
   default = {}

@@ -73,3 +73,9 @@ variable "bastion_iam_role_name" {
   type = string
   default = ""
 }
+
+variable "tfstate_bucket_name" {
+  description = "s3 bucket name of tfstate backend"
+  type = string
+  default = ""
+}

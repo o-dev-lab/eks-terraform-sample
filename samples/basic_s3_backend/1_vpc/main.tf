@@ -119,7 +119,7 @@ module "vpc" {
 # 공식 모듈의 복잡한 내용을 모두 포함할게 아니여서 만들어 둔 모듈 사용
 
 module "eks_cluster_sg" {
-  source = "../../modules/sg"
+  source = "../../../modules/sg"
 
   name        = "${var.prefix}-eks-cluster-sg"
   description = "Security group for eks cluster"
@@ -153,7 +153,7 @@ module "eks_cluster_sg" {
 # # vpc endpoint sg
 
 # module "endpoint_sg" {
-#   source = "../../modules/sg"
+#   source = "../../../modules/sg"
 
 #   name        = "${var.prefix}-eni-sg"
 #   description = "Security group for vpc endpoint"
@@ -186,7 +186,7 @@ module "eks_cluster_sg" {
 # }
 
 module "bastion_sg" {
-  source = "../../modules/sg"
+  source = "../../../modules/sg"
 
   name        = "${var.prefix}-bastion-sg"
   description = "Security group for bastion"

@@ -35,9 +35,49 @@ module "ecr" {
 
 
 
-data "aws_iam_instance_profile" "bastion_role_arn" {
-  name = var.bastion_iam_role_name
+
+# ssm policy 
+
+data "aws_iam_policy_document" "assume_role_policy" {
+
+  statement {
+    sid     = "EC2AssumeRole"
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
 }
+
+resource "aws_iam_role" "this" {
+
+  name        = var.bastion_iam_role_name
+  description = "ec2 ssm role"
+  assume_role_policy    = data.aws_iam_policy_document.assume_role_policy.json
+  force_detach_policies = true
+
+}
+
+
+resource "aws_iam_role_policy_attachment" "this" {
+
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+  role       = aws_iam_role.this.name
+}
+
+resource "aws_iam_instance_profile" "this" {
+
+  role = aws_iam_role.this.name
+  name        = var.bastion_iam_role_name
+
+
+}
+
+
+
+
 
 data "aws_partition" "current" {}
 
@@ -93,9 +133,10 @@ module "eks_cluster" {
 
   access_entries = {
     # One access entry with a policy associated
+
     example = {
       kubernetes_groups = []
-      principal_arn     = data.aws_iam_instance_profile.bastion_role_arn.arn
+      principal_arn     = aws_iam_role.this.arn
 
       policy_associations = {
         example = {

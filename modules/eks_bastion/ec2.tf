@@ -29,8 +29,8 @@ resource "aws_instance" "ec2_instance" {
   key_name               = var.key_name
   vpc_security_group_ids = var.vpc_security_group_ids
   subnet_id              = var.subnet_id
-  iam_instance_profile = var.create_iam_instance_profile ? aws_iam_instance_profile.this[0].name : null
-  user_data = file("./user_data.sh")
+  iam_instance_profile = var.create_iam_instance_profile ? aws_iam_instance_profile.this[0].name : var.use_iam_instance_profile ? var.iam_role_name : null
+  user_data = file("${path.module}/user_data.sh")
   associate_public_ip_address = true
   root_block_device {
     volume_type = var.volume_type
