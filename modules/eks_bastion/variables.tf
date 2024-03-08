@@ -50,7 +50,7 @@ variable "iam_role_policies" {
 
 variable "volume_type" {
   description = ""
-  default = "gp3"
+  default = "gp2"
   type = string
 }
 
@@ -58,4 +58,9 @@ variable "volume_size" {
   description = ""
   default = 8
   type = number
+}
+
+variable "user_data" {
+  type = string
+  default = null
 }

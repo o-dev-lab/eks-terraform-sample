@@ -10,12 +10,12 @@ data "aws_ami" "amazon_linux" {
 
   filter {
     name   = "name"
-    values = ["Amazon Linux*"]
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
   }
 
   filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
+    name   = "architecture"
+    values = ["x86_64"]
   }
 
 }
@@ -30,17 +30,20 @@ resource "aws_instance" "ec2_instance" {
   vpc_security_group_ids = var.vpc_security_group_ids
   subnet_id              = var.subnet_id
   iam_instance_profile = var.create_iam_instance_profile ? aws_iam_instance_profile.this[0].name : null
+  user_data = file("./user_data.sh")
+  associate_public_ip_address = true
   root_block_device {
     volume_type = var.volume_type
     volume_size = var.volume_size
   }
   tags = var.tags
 
+  # 인스턴스 이름
+
 }
 
-# ssm
 
-
+# ssm policy 
 
 data "aws_iam_policy_document" "assume_role_policy" {
   count = var.create_iam_instance_profile ? 1 : 0
@@ -83,10 +86,10 @@ resource "aws_iam_instance_profile" "this" {
 }
 
 
-#eip
+# #eip
 
-resource "aws_eip" "bastion_ip" {
-  instance = aws_instance.ec2_instance.id
-  vpc      = true
-}
+# resource "aws_eip" "bastion_ip" {
+#   instance = aws_instance.ec2_instance.id
+#   # vpc      = true
+# }
 
