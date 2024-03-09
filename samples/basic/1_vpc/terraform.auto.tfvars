@@ -1,8 +1,8 @@
 
 # 프로젝트용 Environment
 env = "dev"
-prefix = "2temp"
-project = "2temp"
+prefix = "temp"
+project = "temp"
 
 
 # default 값은 서울리전, 리전별 모든 가용역역
@@ -14,7 +14,7 @@ vpc_cidr     = "100.0.0.0/16"
 
 
 #ips for sg, 회사 ip 
-company_ips_for_sg = ["211.60.50.190/32", "221.148.35.243/32"]
+company_ips_for_sg = ["10.0.0.1/32", "10.0.0.2/32"]
 
 
-eks_cluster_name = "tempcluster"
+eks_cluster_name = "mycluster"

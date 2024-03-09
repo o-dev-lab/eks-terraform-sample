@@ -128,7 +128,7 @@ module "eks_cluster" {
 
   enable_cluster_creator_admin_permissions = true
   
-  # 권한 추가 
+  # 접근에 대한 api 가 추가되면서 내용이 변경되었다. 추후 api에 iam/role 권한 추가 내용을 넣어둘 예정이다.
 
 
   access_entries = {
