@@ -23,17 +23,6 @@ variable "aws_auth_users" {
   default     = []
 }
 
-variable "eks_cluster_id" {
-  
-}
-
-variable "vpc_id" {
-  
-}
-
-variable "cluster_oidc_issuer_url" {
-  
-}
 
 variable "fargate_profiles" {
   description = "Map of Fargate Profile definitions to create"
